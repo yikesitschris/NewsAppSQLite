@@ -33,7 +33,7 @@ public class NetworkUtils {
         JSONObject main = new JSONObject(s);
         JSONArray articles = main.getJSONArray("articles");
 
-        for (int i = 0; i < newsList.size(); i++) {
+        for (int i = 0; i < articles.length(); i++) {
             JSONObject article = articles.getJSONObject(i);
             String author = article.getString("author");
             String title = article.getString("title");

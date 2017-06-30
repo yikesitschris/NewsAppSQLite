@@ -1,5 +1,7 @@
 package com.example.christopherfong.newsapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int clickedItemIndex) {
                         String url = data.get(clickedItemIndex).getUrl();
-                        Log.d(TAG, String.format("Url %s", url));
+                        Uri webpage = Uri.parse(url);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
                     }
                 });
                 rView.setAdapter(adapter);

@@ -1,6 +1,8 @@
 package com.example.christopherfong.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +21,9 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ItemHo
 
     private ArrayList<NewsItem> newsItems;
     ItemClickListener listener;
+    private String s;
 
-    public NewsItemAdapter(ArrayList<NewsItem> newsItems, ItemClickListener listener){
+    public NewsItemAdapter(ArrayList<NewsItem> newsItems, ItemClickListener listener) {
         this.newsItems = newsItems;
         this.listener = listener;
     }
@@ -51,24 +54,25 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ItemHo
         return newsItems.size();
     }
 
-    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         TextView description;
         TextView time;
 
-        ItemHolder(View view){
+
+        ItemHolder(View view) {
             super(view);
-            title = (TextView)view.findViewById(R.id.item_title);
-            description = (TextView)view.findViewById(R.id.item_description);
-            time = (TextView)view.findViewById(R.id.item_time);
+            title = (TextView) view.findViewById(R.id.item_title);
+            description = (TextView) view.findViewById(R.id.item_description);
+            time = (TextView) view.findViewById(R.id.item_time);
             view.setOnClickListener(this);
         }
 
-        public void bind(int pos){
+        public void bind(int pos) {
             NewsItem ni = newsItems.get(pos);
-            title.setText(ni.getTitle());
-            description.setText(ni.getDescription());
-            time.setText(ni.getPublishedAt());
+            title.setText("Title: \n" + ni.getTitle() + "\n");
+            description.setText("Description: \n" + ni.getDescription() + "\n");
+            time.setText("Time: \n" + ni.getPublishedAt());
         }
 
         @Override

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.christopherfong.newsapp.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.christopherfong.newsapp.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
-        />
-    
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity = "center_vertical|center_horizontal"
-        android:visibility="gone"/>
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
 
 </LinearLayout>
