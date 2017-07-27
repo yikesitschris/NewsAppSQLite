@@ -1,6 +1,7 @@
 package com.example.christopherfong.newsapp;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.christopherfong.newsapp.Model.NewsItem;
 
@@ -22,6 +23,8 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
+    final static String TAG = NetworkUtils.class.getSimpleName();
+
     public static final String GITHUB_BASE_URL =
             "https://newsapi.org/v1/articles";
     public static final String PARAM_QUERY = "source";
@@ -35,24 +38,26 @@ public class NetworkUtils {
 
         for (int i = 0; i < articles.length(); i++) {
             JSONObject article = articles.getJSONObject(i);
-            String author = article.getString("author");
+
             String title = article.getString("title");
-            String description = article.getString("description");
+            String pubDate = article.getString("publishedAt");
+            String abstr = article.getString("description");
             String url = article.getString("url");
-            String urlToImage = article.getString("urlToImage");
-            String time = article.getString("publishedAt");
-            NewsItem newsItem = new NewsItem(author, title, description, url, urlToImage, time);
+            String imgUrl = article.getString("urlToImage");
+
+
+            NewsItem newsItem = new NewsItem(title, pubDate, abstr, imgUrl, url);
             newsList.add(newsItem);
 
         }
         return newsList;
     }
 
-    public static URL makeURL(String searchQuery, String sortBy, String apiKey) {
+    public static URL makeURL() {
         Uri uri = Uri.parse(GITHUB_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, searchQuery)
-                .appendQueryParameter(PARAM_SORT, sortBy)
-                .appendQueryParameter(PARAM_API_KEY, apiKey).build();
+                .appendQueryParameter(PARAM_QUERY, "the-next-web")
+                .appendQueryParameter(PARAM_SORT, "latest")
+                .appendQueryParameter(PARAM_API_KEY, "3d809ad78cdb446d8584b18e6401a5d9").build();
 
         URL url = null;
         try {
@@ -61,7 +66,7 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG, "url:" + url);
         return url;
     }
 

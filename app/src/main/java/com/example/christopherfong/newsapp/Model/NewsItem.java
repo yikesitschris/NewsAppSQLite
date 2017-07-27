@@ -6,43 +6,57 @@ package com.example.christopherfong.newsapp.Model;
 
 public class NewsItem {
 
-    String author;
-    String title;
-    String description;
-    String url;
-    String urlToImage;
-    String publishedAt;
+    private String title;
+    private String published_date;
+    private String abstr;
+    private String thumbUrl;
+    private String Url;
 
-    public NewsItem(String author, String title, String description, String url, String urlToImage, String publishedAt) {
-        this.author = author;
+    public NewsItem(String title, String published_date, String abstr, String thumbUrl, String url) {
         this.title = title;
-        this.description = description;
-        this.url = url;
-        this.urlToImage = urlToImage;
-        this.publishedAt = publishedAt;
-    }
-
-    public String getAuthor() {
-        return author;
+        this.published_date = published_date;
+        this.abstr = abstr;
+        this.thumbUrl = thumbUrl;
+        Url = url;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPublished_date() {
+        return published_date;
+    }
+
+    public void setPublished_date(String published_date) {
+        this.published_date = published_date;
+    }
+
+    public String getAbstr() {
+        return abstr;
+    }
+
+    public void setAbstr(String abstr) {
+        this.abstr = abstr;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 
     public String getUrl() {
-        return url;
+        return Url;
     }
 
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public String getPublishedAt() {
-        return publishedAt;
+    public void setUrl(String url) {
+        Url = url;
     }
 }

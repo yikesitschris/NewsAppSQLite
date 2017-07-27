@@ -1,15 +1,17 @@
 package com.example.christopherfong.newsapp;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.christopherfong.newsapp.Model.NewsItem;
+import com.example.christopherfong.newsapp.Model.Contract;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,22 +21,24 @@ import java.util.ArrayList;
 
 public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ItemHolder> {
 
-    private ArrayList<NewsItem> newsItems;
-    ItemClickListener listener;
-    private String s;
+    private Cursor cursor;
+    private ItemClickListener listener;
+    private Context context;
+    public static final String TAG = "myadapter";
 
-    public NewsItemAdapter(ArrayList<NewsItem> newsItems, ItemClickListener listener) {
-        this.newsItems = newsItems;
+
+    public NewsItemAdapter(Cursor cursor, ItemClickListener listener){
+        this.cursor = cursor;
         this.listener = listener;
     }
 
     public interface ItemClickListener {
-        void onItemClick(int clickedItemIndex);
+        void onItemClick(Cursor cursor, int clickedItemIndex);
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
@@ -51,34 +55,42 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ItemHo
 
     @Override
     public int getItemCount() {
-        return newsItems.size();
+        return cursor.getCount();
     }
 
-    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView title;
-        TextView description;
-        TextView time;
+        TextView abstr;
+        TextView publishDate;
+        ImageView img;
 
-
-        ItemHolder(View view) {
+        ItemHolder(View view){
             super(view);
-            title = (TextView) view.findViewById(R.id.item_title);
-            description = (TextView) view.findViewById(R.id.item_description);
-            time = (TextView) view.findViewById(R.id.item_time);
+            title = (TextView)view.findViewById(R.id.title);
+            abstr = (TextView)view.findViewById(R.id.abstr);
+            publishDate = (TextView)view.findViewById(R.id.date);
+            img = (ImageView)view.findViewById(R.id.img);
             view.setOnClickListener(this);
         }
 
-        public void bind(int pos) {
-            NewsItem ni = newsItems.get(pos);
-            title.setText("Title: \n" + ni.getTitle() + "\n");
-            description.setText("Description: \n" + ni.getDescription() + "\n");
-            time.setText("Time: \n" + ni.getPublishedAt());
+        public void bind(int pos){
+            cursor.moveToPosition(pos);
+            title.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_TITLE)));
+            abstr.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_ABSTRACT)));
+            publishDate.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_PUBLISHED_DATE)));
+            String url = cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_THUMBURL));
+            Log.d(TAG, url);
+            if(url != null){
+                Picasso.with(context)
+                        .load(url)
+                        .into(img);
+            }
         }
 
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            listener.onItemClick(pos);
+            listener.onItemClick(cursor, pos);
         }
     }
 
